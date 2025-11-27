@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0",
+  "build": 1,
+  "release_date": "2024-11-27",
+  "min_server_version": "1.0.0",
+  "update_url": "https://api.github.com/repos/Gohanado/task-monitoring/releases/latest",
+  "changelog_url": "https://raw.githubusercontent.com/Gohanado/task-monitoring/main/CHANGELOG.md"
+}
+

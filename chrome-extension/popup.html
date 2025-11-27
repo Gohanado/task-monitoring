@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LLM Monitor</title>
+  <link rel="stylesheet" href="css/popup.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Vue authentification centrale -->
+    <div id="auth-view" class="view">
+      <div class="header">
+        <h1>LLM Monitor</h1>
+        <p class="subtitle">Monitoring temps reel pour LLM</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login">Connexion</button>
+        <button class="auth-tab" data-tab="register">Inscription</button>
+      </div>
+
+      <!-- Login -->
+      <form id="login-form" class="auth-form">
+        <div class="form-group">
+          <label for="login-username">Nom d'utilisateur</label>
+          <input type="text" id="login-username" required>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Mot de passe</label>
+          <input type="password" id="login-password" required>
+        </div>
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="remember-me" checked>
+            <span>Se souvenir de moi</span>
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Se connecter</button>
+      </form>
+
+      <!-- Register -->
+      <form id="register-form" class="auth-form hidden">
+        <div class="form-group">
+          <label for="reg-username">Nom d'utilisateur</label>
+          <input type="text" id="reg-username" required minlength="3">
+          <small class="hint">Min 3 caracteres, alphanumerique</small>
+        </div>
+        <div class="form-group">
+          <label for="reg-email">Email</label>
+          <input type="email" id="reg-email" required>
+        </div>
+        <div class="form-group">
+          <label for="reg-password">Mot de passe</label>
+          <input type="password" id="reg-password" required minlength="8">
+          <small class="hint">Min 8 car., 1 majuscule, 1 chiffre</small>
+        </div>
+        <div class="form-group">
+          <label for="reg-password2">Confirmer</label>
+          <input type="password" id="reg-password2" required>
+        </div>
+        <button type="submit" class="btn btn-primary">S'inscrire</button>
+      </form>
+
+      <div id="auth-error" class="error-msg hidden"></div>
+    </div>
+
+    <!-- Vue configuration serveur -->
+    <div id="server-view" class="view hidden">
+      <div class="header">
+        <div class="header-row">
+          <h1>Configurer le serveur</h1>
+          <button id="btn-logout" class="btn-icon" title="Deconnexion">X</button>
+        </div>
+        <p id="user-info" class="subtitle"></p>
+      </div>
+
+      <div class="server-options">
+        <button id="btn-new-install" class="btn btn-secondary btn-large">
+          Nouvelle installation
+          <small>Installer sur un nouveau serveur</small>
+        </button>
+
+        <div class="divider">ou</div>
+
+        <form id="server-form">
+          <div class="form-group">
+            <label for="server-host">Adresse du serveur</label>
+            <input type="text" id="server-host" placeholder="192.168.1.100">
+          </div>
+          <div class="form-group">
+            <label for="server-port">Port</label>
+            <input type="number" id="server-port" value="8080" min="1" max="65535">
+          </div>
+          <button type="submit" class="btn btn-primary">Connecter</button>
+        </form>
+      </div>
+
+      <div id="server-error" class="error-msg hidden"></div>
+    </div>
+
+    <!-- Vue dashboard -->
+    <div id="dashboard-view" class="view hidden">
+      <div class="header">
+        <div class="header-row">
+          <h1>LLM Monitor</h1>
+          <div class="header-actions">
+            <button id="btn-options" class="btn-icon" title="Options">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+              </svg>
+            </button>
+            <button id="btn-disconnect" class="btn-icon" title="Deconnecter">X</button>
+          </div>
+        </div>
+        <p id="server-info" class="subtitle"></p>
+      </div>
+      
+      <!-- Services -->
+      <div class="section">
+        <h2>Services</h2>
+        <div id="services-list" class="services-grid"></div>
+      </div>
+      
+      <!-- Stats -->
+      <div class="section">
+        <h2>Statistiques</h2>
+        <div id="stats-grid" class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-value" id="stat-queue">0</span>
+            <span class="stat-label">En queue</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="stat-processing">0</span>
+            <span class="stat-label">En cours</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="stat-completed">0</span>
+            <span class="stat-label">Terminees</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="stat-failed">0</span>
+            <span class="stat-label">Echecs</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Requetes en cours -->
+      <div class="section">
+        <h2>En cours <span id="processing-count" class="badge">0</span></h2>
+        <div id="processing-list" class="request-list"></div>
+      </div>
+      
+      <!-- Queue -->
+      <div class="section">
+        <h2>Queue <span id="queue-count" class="badge">0</span></h2>
+        <div id="queue-list" class="request-list"></div>
+      </div>
+      
+      <div class="footer">
+        <button id="btn-open-dashboard" class="btn btn-secondary">Ouvrir le dashboard complet</button>
+      </div>
+    </div>
+    
+    <!-- Vue installation - Etape 1: Choix OS -->
+    <div id="install-step1" class="view hidden">
+      <div class="header">
+        <div class="header-row">
+          <h1>Installation</h1>
+          <button id="btn-back-welcome2" class="btn-icon">←</button>
+        </div>
+        <p class="subtitle">Etape 1/3 - Systeme d'exploitation</p>
+      </div>
+
+      <div class="os-selector">
+        <button class="os-btn" data-os="ubuntu">
+          <span class="os-icon">U</span>
+          <span>Ubuntu / Debian</span>
+        </button>
+        <button class="os-btn" data-os="centos">
+          <span class="os-icon">C</span>
+          <span>CentOS / RHEL</span>
+        </button>
+        <button class="os-btn" data-os="macos">
+          <span class="os-icon">M</span>
+          <span>macOS</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Vue installation - Etape 2: Port + Commandes -->
+    <div id="install-step2" class="view hidden">
+      <div class="header">
+        <div class="header-row">
+          <h1>Installation</h1>
+          <button id="btn-back-step1" class="btn-icon">X</button>
+        </div>
+        <p class="subtitle">Etape 2/3 - Configuration</p>
+      </div>
+
+      <div class="install-instructions">
+        <div class="form-group">
+          <label for="install-port">Port du serveur</label>
+          <input type="number" id="install-port" value="8080" min="1" max="65535">
+          <small class="hint">Port par defaut: 8080</small>
+        </div>
+
+        <p>Connectez-vous en SSH et executez:</p>
+        <pre id="install-commands" class="code-block"></pre>
+        <button id="btn-copy-commands" class="btn btn-secondary">Copier</button>
+
+        <div class="port-warning">
+          <strong>Important:</strong> Ouvrez le port <span id="port-display">8080</span> dans votre pare-feu
+        </div>
+
+        <button id="btn-next-step3" class="btn btn-primary">Suivant</button>
+      </div>
+    </div>
+
+    <!-- Vue installation - Etape 3: Test connexion -->
+    <div id="install-step3" class="view hidden">
+      <div class="header">
+        <div class="header-row">
+          <h1>Installation</h1>
+          <button id="btn-back-step2" class="btn-icon">X</button>
+        </div>
+        <p class="subtitle">Etape 3/3 - Tester la connexion</p>
+      </div>
+
+      <div class="test-connection">
+        <div class="form-group">
+          <label for="test-ip">Adresse IP du serveur</label>
+          <input type="text" id="test-ip" placeholder="192.168.1.100">
+        </div>
+        <div class="form-group">
+          <label for="test-port">Port</label>
+          <input type="number" id="test-port" value="8080" min="1" max="65535">
+        </div>
+
+        <button id="btn-test-connection" class="btn btn-primary">Tester</button>
+
+        <div id="test-result" class="test-result hidden"></div>
+
+        <div id="test-success" class="hidden">
+          <div class="success-msg">Connexion reussie!</div>
+          <button id="btn-finish-install" class="btn btn-primary">Terminer</button>
+        </div>
+
+        <div id="test-error" class="hidden">
+          <div class="error-msg">Connexion echouee</div>
+          <div class="error-help">
+            <p>Verifiez que:</p>
+            <ul>
+              <li>Le serveur monitoring est demarre</li>
+              <li>Le port est ouvert</li>
+              <li>L'adresse IP est correcte</li>
+            </ul>
+          </div>
+          <button id="btn-retry-install" class="btn btn-secondary">Recommencer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vue Options -->
+    <div id="options-view" class="view hidden">
+      <div class="header">
+        <div class="header-row">
+          <button id="btn-back-options" class="btn-icon" title="Retour">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <h1>Options</h1>
+        </div>
+        <p id="version-info" class="subtitle">Version 1.0.0</p>
+      </div>
+
+      <div class="options-content">
+        <!-- Infos compte -->
+        <div class="options-section">
+          <h3>Compte</h3>
+          <div class="option-item">
+            <span class="option-label">Utilisateur</span>
+            <span id="opt-username" class="option-value">-</span>
+          </div>
+          <div class="option-item">
+            <span class="option-label">Email</span>
+            <span id="opt-email" class="option-value">-</span>
+          </div>
+          <div class="option-item">
+            <span class="option-label">Serveur</span>
+            <span id="opt-server" class="option-value">-</span>
+          </div>
+        </div>
+
+        <!-- Mise a jour -->
+        <div class="options-section">
+          <h3>Mise a jour</h3>
+          <div class="update-status" id="update-status">
+            <span class="status-icon">-</span>
+            <span class="status-text">Verification...</span>
+          </div>
+          <button id="btn-check-update" class="btn btn-secondary btn-full">
+            Verifier les mises a jour
+          </button>
+        </div>
+
+        <!-- Support -->
+        <div class="options-section">
+          <h3>Support</h3>
+          <div class="options-buttons">
+            <button id="btn-bug-report" class="btn btn-option">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 8v4M12 16h.01"/>
+              </svg>
+              Signaler un bug
+            </button>
+            <button id="btn-feature-request" class="btn btn-option">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+              Demander une amelioration
+            </button>
+            <button id="btn-documentation" class="btn btn-option">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+              </svg>
+              Documentation
+            </button>
+          </div>
+        </div>
+
+        <!-- Changelog -->
+        <div class="options-section">
+          <h3>Changelog</h3>
+          <div id="changelog-preview" class="changelog-preview">
+            Chargement...
+          </div>
+          <button id="btn-full-changelog" class="btn btn-secondary btn-full">
+            Voir le changelog complet
+          </button>
+        </div>
+
+        <!-- Licence -->
+        <div class="options-section">
+          <h3>Licence</h3>
+          <p class="license-info">
+            LLM Monitor - Copyright 2024 Gohanado<br>
+            <small>Usage personnel/professionnel autorise. Redistribution interdite.</small>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/popup.js"></script>
+</body>
+</html>
+

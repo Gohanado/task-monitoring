@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Monitor</title>
+    <link rel="stylesheet" href="/static/style.css?v=3">
+</head>
+<body>
+    <header class="header">
+        <h1>LLM Monitor</h1>
+        <div class="services" id="services-list"></div>
+        <div class="stats">
+            <div class="stat stat-queue">
+                <div class="stat-value" id="stat-queue">0</div>
+                <div class="stat-label">En queue</div>
+            </div>
+            <div class="stat stat-processing">
+                <div class="stat-value" id="stat-processing">0</div>
+                <div class="stat-label">En cours</div>
+            </div>
+            <div class="stat stat-completed">
+                <div class="stat-value" id="stat-completed">0</div>
+                <div class="stat-label">Terminees</div>
+            </div>
+            <div class="stat stat-failed">
+                <div class="stat-value" id="stat-failed">0</div>
+                <div class="stat-label">Echecs</div>
+            </div>
+        </div>
+        <div class="connection-status">
+            <span class="status-dot" id="status-dot"></span>
+            <span id="connection-text">Deconnecte</span>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- Queue -->
+        <div class="column column-queue">
+            <div class="column-header">
+                <h2>Queue <span class="count" id="queue-count">0</span></h2>
+            </div>
+            <div class="column-content" id="queue-list">
+                <div class="empty-state">Aucune requete en attente</div>
+            </div>
+        </div>
+
+        <!-- Processing -->
+        <div class="column column-processing">
+            <div class="column-header">
+                <h2>En cours <span class="count" id="processing-count">0</span></h2>
+            </div>
+            <div class="column-content" id="processing-list">
+                <div class="empty-state">Aucune requete en traitement</div>
+            </div>
+        </div>
+
+        <!-- History -->
+        <div class="column column-history">
+            <div class="column-header">
+                <h2>Historique <span class="count" id="history-count">0</span></h2>
+            </div>
+            <div class="column-content" id="history-list">
+                <div class="empty-state">Aucun historique</div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/static/app.js?v=3"></script>
+</body>
+</html>
+
