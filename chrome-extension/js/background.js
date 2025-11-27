@@ -5,6 +5,130 @@
 let monitorConfig = null;
 let checkInterval = null;
 
+// Creer le menu contextuel au demarrage
+chrome.runtime.onInstalled.addListener(() => {
+  // Supprimer les anciens menus
+  chrome.contextMenus.removeAll(() => {
+    // Menu principal
+    chrome.contextMenus.create({
+      id: 'llm-monitor-options',
+      title: 'Options',
+      contexts: ['action']
+    });
+
+    chrome.contextMenus.create({
+      id: 'llm-monitor-separator1',
+      type: 'separator',
+      contexts: ['action']
+    });
+
+    chrome.contextMenus.create({
+      id: 'llm-monitor-bug',
+      title: 'Signaler un bug',
+      contexts: ['action']
+    });
+
+    chrome.contextMenus.create({
+      id: 'llm-monitor-feature',
+      title: 'Demander une amelioration',
+      contexts: ['action']
+    });
+
+    chrome.contextMenus.create({
+      id: 'llm-monitor-separator2',
+      type: 'separator',
+      contexts: ['action']
+    });
+
+    chrome.contextMenus.create({
+      id: 'llm-monitor-doc',
+      title: 'Documentation',
+      contexts: ['action']
+    });
+
+    chrome.contextMenus.create({
+      id: 'llm-monitor-changelog',
+      title: 'Changelog',
+      contexts: ['action']
+    });
+
+    chrome.contextMenus.create({
+      id: 'llm-monitor-github',
+      title: 'GitHub',
+      contexts: ['action']
+    });
+  });
+});
+
+// Gerer les clics sur le menu contextuel
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+  const bugTemplate = encodeURIComponent(`## Description du bug
+
+**Comportement attendu:**
+
+
+**Comportement observe:**
+
+
+## Etapes pour reproduire
+1.
+2.
+3.
+
+## Environnement
+- Version: 1.0.0
+- OS:
+- Navigateur: Chrome
+`);
+
+  const featureTemplate = encodeURIComponent(`## Description de la fonctionnalite
+
+
+## Cas d'utilisation
+
+
+## Solution proposee (optionnel)
+
+`);
+
+  switch (info.menuItemId) {
+    case 'llm-monitor-options':
+      // Ouvrir le popup sur la page options
+      chrome.storage.local.set({ openOptionsOnPopup: true });
+      break;
+
+    case 'llm-monitor-bug':
+      chrome.tabs.create({
+        url: `https://github.com/Gohanado/task-monitoring/issues/new?labels=bug&title=[Bug]%20&body=${bugTemplate}`
+      });
+      break;
+
+    case 'llm-monitor-feature':
+      chrome.tabs.create({
+        url: `https://github.com/Gohanado/task-monitoring/issues/new?labels=enhancement&title=[Feature]%20&body=${featureTemplate}`
+      });
+      break;
+
+    case 'llm-monitor-doc':
+      chrome.tabs.create({
+        url: 'https://github.com/Gohanado/task-monitoring/wiki'
+      });
+      break;
+
+    case 'llm-monitor-changelog':
+      chrome.tabs.create({
+        url: 'https://github.com/Gohanado/task-monitoring/blob/main/monitor/CHANGELOG.md'
+      });
+      break;
+
+    case 'llm-monitor-github':
+      chrome.tabs.create({
+        url: 'https://github.com/Gohanado/task-monitoring'
+      });
+      break;
+  }
+});
+
 // Charger la configuration au demarrage
 chrome.storage.local.get(['llmMonitorConfig'], (result) => {
   monitorConfig = result.llmMonitorConfig || null;
