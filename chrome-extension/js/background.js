@@ -93,7 +93,14 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 
   switch (info.menuItemId) {
     case 'llm-monitor-options':
-      chrome.runtime.openOptionsPage();
+      // Ouvrir options dans une fenetre popup
+      chrome.windows.create({
+        url: chrome.runtime.getURL('options.html'),
+        type: 'popup',
+        width: 650,
+        height: 700,
+        focused: true
+      });
       break;
 
     case 'llm-monitor-bug':
