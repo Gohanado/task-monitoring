@@ -93,8 +93,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 
   switch (info.menuItemId) {
     case 'llm-monitor-options':
-      // Ouvrir le popup sur la page options
-      chrome.storage.local.set({ openOptionsOnPopup: true });
+      chrome.runtime.openOptionsPage();
       break;
 
     case 'llm-monitor-bug':

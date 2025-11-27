@@ -1,0 +1,196 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+  min-height: 100vh;
+  color: #e0e0e0;
+}
+
+.options-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.options-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.options-header .logo {
+  width: 48px;
+  height: 48px;
+}
+
+.options-header h1 {
+  font-size: 24px;
+  color: #00d4ff;
+  margin: 0;
+}
+
+.options-header #version-info {
+  font-size: 14px;
+  color: #888;
+}
+
+.options-main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.options-section {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.options-section h2 {
+  font-size: 14px;
+  color: #00d4ff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+.option-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.option-row:last-of-type {
+  border-bottom: none;
+}
+
+.option-label {
+  color: #888;
+}
+
+.option-value {
+  color: #fff;
+  font-weight: 500;
+}
+
+/* Update status */
+.update-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #0d0d0d;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.update-status .status-icon {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #888;
+}
+
+.update-status.up-to-date .status-icon { background: #2ecc71; }
+.update-status.update-available .status-icon { background: #f39c12; }
+.update-status.error .status-icon { background: #e74c3c; }
+
+.update-status .status-text {
+  color: #ccc;
+}
+
+/* Buttons */
+.btn-primary, .btn-secondary {
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #00d4ff, #0099cc);
+  border: none;
+  color: #000;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid #333;
+  color: #ccc;
+}
+
+.btn-secondary:hover {
+  background: rgba(0, 212, 255, 0.1);
+  border-color: #00d4ff;
+  color: #00d4ff;
+}
+
+.buttons-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.btn-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: #0d0d0d;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: #ccc;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-option:hover {
+  background: rgba(0, 212, 255, 0.1);
+  border-color: #00d4ff;
+  color: #00d4ff;
+}
+
+/* Changelog */
+.changelog-preview {
+  background: #0d0d0d;
+  border-radius: 8px;
+  padding: 16px;
+  font-size: 13px;
+  color: #888;
+  max-height: 150px;
+  overflow-y: auto;
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.changelog-preview strong { color: #00d4ff; }
+
+/* License */
+.license-text {
+  font-size: 14px;
+  color: #888;
+  line-height: 1.6;
+}
+
+.license-text strong { color: #ccc; }
+.license-text small { color: #666; }
+
